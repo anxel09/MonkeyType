@@ -20,38 +20,54 @@ const Text = () => {
   },[])
 
   useEffect(()=>{
-    if(inputState.length !== 0){
-      setIndexText(inputState.length)
-      if (inputState[indexText] !== text[indexText]){
-        setIncorrect(prev =>{
-          const lastElement:number|undefined = prev.at(-1)
-          if(lastElement && (lastElement > indexText)){
-            return [...prev.slice(0,-1)]
-          }
-          return [...prev,indexText]            
-          
-        })
-        console.log(incorrect)
-      }
-    }else{
-      setIndexText(-1)
-    }
+    if (inputState.length <= 0) setIndexText(-1)
   },[inputState])
 
+  useEffect(()=>{
+
+    if (inputState[indexText] !== text[indexText]){
+      setIncorrect(prev =>{
+        const lastElement:number|undefined = prev[prev.length-1]
+        if(lastElement && (lastElement > indexText)){
+          return [...prev.slice(0,-1)]
+        }
+        return [...prev,indexText]            
+      })
+    }
+
+  },[indexText])
+
+
   function setStylesLetters(index:number):string{
-    if(index <= indexText-1){
+    if(index <= indexText){
       return incorrect.includes(index) ? style.incorrect : style.correct
     }
     return ''
   }
 
-  useEffect(()=>{
-    console.log(incorrect)
-  },[incorrect])
+  function onChangeHandle(e:any){
+    setInputState(prev =>{
+      if(prev.length > e.target.value.length){
+        setIncorrect(prev=> prev.filter(item=> item !== indexText))
+        setIndexText(prev => prev-1)
+        return e.target.value
+      }
+      setIndexText(prev=> prev+1)
+      return e.target.value
+    })
+  }
+
+  // useEffect(()=>{
+  //   console.log('indexText: '+indexText)
+  // },[indexText])
+
+  // useEffect(()=>{
+  //   console.log('Incorrect '+incorrect)
+  // },[incorrect])
 
   return (
     <>
-      <input onChange={(e)=> setInputState(e.currentTarget.value)} value={inputState} ref={inp} className={style.inputText} tabIndex={0} type="text" />
+      <input onChange={onChangeHandle} value={inputState} ref={inp} className={style.inputText} tabIndex={0} type="text" />
       <p>
         {
           letters.map((letter,index) => <span key={index+letter} className={setStylesLetters(index)}>{letter}</span> )
