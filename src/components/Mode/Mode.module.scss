@@ -1,0 +1,50 @@
+@import "../../styles/variables";
+
+.mode{
+  color:$sub-color;
+}
+
+.grammars{
+  display: flex;
+  justify-content: flex-end;
+  div{
+    cursor: pointer;
+    color:$sub-color;
+    margin-left: 5px;
+    &:hover{
+      color: $text-color;
+    }
+  }
+}
+
+.modes{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  div{
+    cursor: pointer;
+    color:$sub-color;
+    margin-left: 5px;
+    &:hover{
+      color: $text-color;
+    }
+  }
+}
+
+.times{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  div{
+    cursor: pointer;
+    color:$sub-color;
+    margin-left: 5px;
+    &:hover{
+      color: $text-color;
+    }
+  }
+}
+
+.active{
+  color: $main-color !important;
+}

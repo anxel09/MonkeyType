@@ -1,0 +1,28 @@
+@import "../../styles/variables";
+.home{
+  display: flex;
+  align-items: center;
+  h1{
+    margin-left: 5px;
+  }
+}
+
+.navList{
+  display: flex;
+  align-items: center;
+  height: 100%;
+  .listItem{
+    cursor: pointer;
+    svg{
+      &:hover{
+        fill: $text-color;
+      }
+    }
+    .settings{
+      margin-top: 3px;
+    }
+    .keyboard{
+      margin-top: 5px;
+    }
+  }
+}

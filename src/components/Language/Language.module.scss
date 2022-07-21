@@ -1,0 +1,12 @@
+@import "../../styles/variables";
+
+.globe{
+  fill: $sub-color;
+  &:hover{
+    fill:$text-color;
+  }
+}
+
+p{
+  color: $text-color;
+}

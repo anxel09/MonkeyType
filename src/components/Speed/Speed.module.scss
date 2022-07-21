@@ -1,0 +1,7 @@
+@import "../../styles/variables";
+.tachometer{
+  fill: $sub-color;
+  &:hover{
+    fill: $text-color;
+  }
+}

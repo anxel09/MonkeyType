@@ -1,0 +1,23 @@
+@import "../../styles/variables";
+
+p{
+  color: $sub-color;
+}
+.inputText{
+  background-color: inherit;
+  border: 0px;
+  outline: none;
+  caret-color: transparent;
+  // color: transparent;
+  &:focus{
+    outline: none;
+  }
+}
+
+.correct{
+  color: $text-color;
+}
+
+.incorrect{
+  color: $error-color;
+}
