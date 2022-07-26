@@ -1,0 +1,15 @@
+.main{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+}
+
+.modes{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  
+}

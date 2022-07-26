@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
+import { useDispatch } from "react-redux"
+import { increaseMistakes, setCountCorrect, setCountOfClicks, setIsStart } from "../../features/TextSlicer"
 import { textToLetter } from "../../utils/textToLetter"
 import style from "./Text.module.scss"
 
@@ -10,6 +12,8 @@ both your child s punctuation skills and their ability to form sentences".toLowe
 
 const letters = textToLetter(text)
 const Text = () => {
+  const dispatch = useDispatch()
+  const firstRender = useRef(true)
   const inp = useRef<HTMLInputElement>(null)
   const [inputState,setInputState] = useState<string>('')
   const [indexText, setIndexText] = useState<number>(-1)
@@ -20,12 +24,19 @@ const Text = () => {
   },[])
 
   useEffect(()=>{
+    if(!firstRender.current){
+      dispatch(setCountOfClicks())
+      dispatch(setIsStart(true))
+    }
     if (inputState.length <= 0) setIndexText(-1)
+    firstRender.current = false
+    return ()=> {dispatch(setCountCorrect(inputState.length-incorrect.length))}
   },[inputState])
 
   useEffect(()=>{
 
     if (inputState[indexText] !== text[indexText]){
+      dispatch(increaseMistakes())
       setIncorrect(prev =>{
         const lastElement:number|undefined = prev[prev.length-1]
         if(lastElement && (lastElement > indexText)){
@@ -38,14 +49,8 @@ const Text = () => {
   },[indexText])
 
 
-  function setStylesLetters(index:number):string{
-    if(index <= indexText){
-      return incorrect.includes(index) ? style.incorrect : style.correct
-    }
-    return ''
-  }
 
-  function onChangeHandle(e:any){
+  function onChangeHandler(e:any){
     setInputState(prev =>{
       if(prev.length > e.target.value.length){
         setIncorrect(prev=> prev.filter(item=> item !== indexText))
@@ -57,18 +62,38 @@ const Text = () => {
     })
   }
 
-  // useEffect(()=>{
-  //   console.log('indexText: '+indexText)
-  // },[indexText])
+  
+  // function setStylesLetters(index:number, indexText:number):string{
+  //   if(index <= indexText){
+  //     // if (index === indexText) return ''
+  //     console.log(incorrect)
+  //     if(incorrect.includes(index)){
+        
+  //       console.log('Da')
+  //       return style.incorrect
+  //     }
+  //     console.log('Есть такое!')
+  //     return style.correct
+  //   }
+  //   return ''
+  // }
 
-  // useEffect(()=>{
-  //   console.log('Incorrect '+incorrect)
-  // },[incorrect])
-
+  const setStylesLetters = useCallback ((index:number):string =>{
+    if(index <= indexText){
+      if(incorrect.includes(index)){
+        
+        // console.log('Da')
+        return style.incorrect
+      }
+      // console.log('Есть такое!')
+      return style.correct
+    }
+    return ''
+  }, [incorrect,indexText])
   return (
     <>
-      <input onChange={onChangeHandle} value={inputState} ref={inp} className={style.inputText} tabIndex={0} type="text" />
-      <p>
+      <input onChange={onChangeHandler} value={inputState} ref={inp} className={style.inputText} tabIndex={0} type="text" />
+      <p className={style.text}>
         {
           letters.map((letter,index) => <span key={index+letter} className={setStylesLetters(index)}>{letter}</span> )
         }
