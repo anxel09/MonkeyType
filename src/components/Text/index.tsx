@@ -1,9 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
+import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
-import { increaseMistakes, setCountCorrect, setCountOfClicks, setIsStart } from "../../features/TextSlicer"
+import { setError } from "../../features/ChartSlicer"
+import { getCurrentTime, getTime, increaseMistakes, setCountCorrect, setCountOfClicks, setIsStart } from "../../features/TextSlicer"
+import { useAppSelector } from "../../hooks/redux"
 import { textToLetter } from "../../utils/textToLetter"
 import style from "./Text.module.scss"
 
+
+//Пока на время тут ) 
 const text = "With these worksheets your child can think carefully\
 about where punctuation goes in a sentence and which type\
 of punctuation is best to use in that instance This develops\
@@ -18,6 +23,8 @@ const Text = () => {
   const [inputState,setInputState] = useState<string>('')
   const [indexText, setIndexText] = useState<number>(-1)
   const [incorrect, setIncorrect] = useState<number[]>([])
+  const time = useAppSelector(getTime)
+  const currentTime = useSelector(getCurrentTime)
 
   useEffect(()=>{
     inp.current ? inp.current.focus() : null
@@ -36,6 +43,7 @@ const Text = () => {
   useEffect(()=>{
 
     if (inputState[indexText] !== text[indexText]){
+      dispatch( setError({time:time-currentTime, error:1}) )
       dispatch(increaseMistakes())
       setIncorrect(prev =>{
         const lastElement:number|undefined = prev[prev.length-1]
@@ -50,42 +58,24 @@ const Text = () => {
 
 
 
-  function onChangeHandler(e:any){
+  function onChangeHandler(e:React.SyntheticEvent<EventTarget>){
     setInputState(prev =>{
-      if(prev.length > e.target.value.length){
+      if(prev.length > (e.target as HTMLInputElement).value.length){
         setIncorrect(prev=> prev.filter(item=> item !== indexText))
         setIndexText(prev => prev-1)
-        return e.target.value
+        return (e.target as HTMLInputElement).value
       }
       setIndexText(prev=> prev+1)
-      return e.target.value
+      return (e.target as HTMLInputElement).value
     })
   }
-
-  
-  // function setStylesLetters(index:number, indexText:number):string{
-  //   if(index <= indexText){
-  //     // if (index === indexText) return ''
-  //     console.log(incorrect)
-  //     if(incorrect.includes(index)){
-        
-  //       console.log('Da')
-  //       return style.incorrect
-  //     }
-  //     console.log('Есть такое!')
-  //     return style.correct
-  //   }
-  //   return ''
-  // }
 
   const setStylesLetters = useCallback ((index:number):string =>{
     if(index <= indexText){
       if(incorrect.includes(index)){
         
-        // console.log('Da')
         return style.incorrect
       }
-      // console.log('Есть такое!')
       return style.correct
     }
     return ''

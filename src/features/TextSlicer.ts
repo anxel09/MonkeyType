@@ -1,6 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../store/store";
 
-const initialState = {
+interface ITExt{
+  isStart:boolean,
+  mistakes: number,
+  time: number,
+  currentTime:number,
+  countOfClicks:number,
+  countOfCharacter:number,
+  countCorrectCharacters:number,
+}
+
+
+const initialState:ITExt = {
   isStart: false,
   mistakes: 0,
   time:5,
@@ -35,13 +47,13 @@ export const textSlice = createSlice({
   }
 })
 
-export const getCountMistakes = (state) => state.text.mistakes;
-export const getCurrentTime = (state) => state.text.currentTime
-export const getCountOfClicks = (state) => state.text.countOfClicks
-export const getIsStart = (state) => state.text.isStart
-export const getCountOfCharacter = (state) => state.text.countOfCharacter
-export const getTime = (state) => state.text.time
-export const getCountCorrect = (state) => state.text.countCorrectCharacters
+export const getCountMistakes = (state:RootState) => state.text.mistakes;
+export const getCurrentTime = (state:RootState) => state.text.currentTime
+export const getCountOfClicks = (state:RootState) => state.text.countOfClicks
+export const getIsStart = (state:RootState) => state.text.isStart
+export const getCountOfCharacter = (state:RootState) => state.text.countOfCharacter
+export const getTime = (state:RootState) => state.text.time
+export const getCountCorrect = (state:RootState) => state.text.countCorrectCharacters
 
 export const {
   increaseMistakes,
