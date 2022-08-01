@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux"
 import { setError } from "../../features/ChartSlicer"
 import { getCurrentTime, getTime, increaseMistakes, setCountCorrect, setCountOfClicks, setIsStart } from "../../features/TextSlicer"
 import { useAppSelector } from "../../hooks/redux"
-import { textToLetter } from "../../utils/textToLetter"
+import { textToLetter } from "../../common/utils/textToLetter"
 import style from "./Text.module.scss"
 
 
@@ -16,7 +16,13 @@ both your child s punctuation skills and their ability to form sentences".toLowe
 
 
 const letters = textToLetter(text)
-const Text = () => {
+
+interface IText{
+  reloadStats: boolean,
+  setReloadStats: (val:boolean) => void,
+}
+
+const Text: React.FC<IText> = ({reloadStats, setReloadStats}) => {
   const dispatch = useDispatch()
   const firstRender = useRef(true)
   const inp = useRef<HTMLInputElement>(null)

@@ -1,4 +1,6 @@
 import React, { useState,useEffect } from 'react'
+import { setTime } from '../../features/TextSlicer'
+import { useAppDispatch } from '../../hooks/redux'
 import style  from './Mode.module.scss'
 
 
@@ -8,9 +10,16 @@ const times:number[] = [15,30,60,120]
 
 
 const Mode: React.FC = () => {
+  const dispatch = useAppDispatch()
   const [activeGrammar, setActiveGrammar] = useState<string[]>([])
   const [activeMode, setActiveMode] = useState<number>(0)
   const [activeTime, setActiveTime] = useState<number>(0)
+
+
+  useEffect(()=>{
+    dispatch(setTime(times[activeTime]))
+  },[activeTime])
+
 
   function handleGrammarClick(grammar:string){
     setActiveGrammar(prev=>{

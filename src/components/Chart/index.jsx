@@ -13,10 +13,10 @@ import {
 } from 'chart.js';
 import {Chart} from "react-chartjs-2"
 import { useAppSelector } from '../../hooks/redux';
-import { WordsPerMinute } from '../../utils/Wpm';
+import { WordsPerMinute } from '../../common/utils/Wpm';
 import { getTime } from '../../features/TextSlicer';
 import { useSelector } from 'react-redux';
-import { feelLabels } from '../../utils/FeelLabels';
+import { feelLabels } from '../../common/utils/FeelLabels';
 
 ChartJS.register(
   LinearScale,

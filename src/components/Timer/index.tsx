@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import style from './Timer.module.scss'
 // import { useAppDispatch, useAppSelector } from 'react-redux'
-import {  getCurrentTime, getTime, setIsStart, setTime } from '../../features/TextSlicer'
+import {  getCurrentTime, getTime, setCurrentTime, setIsStart, setTime } from '../../features/TextSlicer'
 import { setTimeChart, setWordPerMinute } from "../../features/ChartSlicer"
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { WordsPerMinute } from '../../utils/Wpm'
+import { WordsPerMinute } from '../../common/utils/Wpm'
+import { GameStatus } from '../../common/types'
 interface ITimer{
-  setGameStatus: (val:string)=>void,
+  setGameStatus: (val:GameStatus)=>void,
 }
 
 
@@ -22,13 +23,13 @@ const Timer: React.FC<ITimer> = ({setGameStatus}) => {
   useEffect(()=>{
     const hashId = setTimeout(()=>{
       if (currentTime === 0){
-        setGameStatus('statistics')
+        setGameStatus(GameStatus.GAME_STATS)
         dispatch(setIsStart(false))
         dispatch( setWordPerMinute(WordsPerMinute(time-currentTime, countCharacter)) )
         return ()=> clearTimeout(hashId)
       }
       dispatch( setWordPerMinute(WordsPerMinute(time-currentTime, countCharacter)) )
-      dispatch(setTime(currentTime-1))
+      dispatch(setCurrentTime(currentTime-1))
       dispatch( setTimeChart( currentTime+1 ) )
     },1000)
     return ()=> clearTimeout(hashId)

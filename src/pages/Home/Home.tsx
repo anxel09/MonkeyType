@@ -1,5 +1,6 @@
-import React, { MutableRefObject, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { GameStatus } from '../../common/types'
 import Language from '../../components/Language'
 import Speed from '../../components/Speed'
 import Text from '../../components/Text'
@@ -8,10 +9,19 @@ import { getIsStart } from '../../features/TextSlicer'
 import style from './Home.module.scss'
 
 interface IProps{
-  setGameStatus: (val:string)=>void,
+  setGameStatus: (val:GameStatus)=>void,
+  reloadStats: boolean,
+  setReloadStats: (val:boolean) => void,
 }
 
-const Home: React.FC<IProps> = ({setGameStatus}) => {
+const Home: React.FC<IProps> = ({setGameStatus,reloadStats,setReloadStats}) => {
+
+  useEffect(()=>{
+    if(reloadStats){
+      setReloadStats(false)
+    } 
+  },[reloadStats])
+
   const isStart = useSelector(getIsStart)
   return (
     <div className='container'>
@@ -28,7 +38,14 @@ const Home: React.FC<IProps> = ({setGameStatus}) => {
           }
         </div>
         <div className={style.text}>
-          <Text />
+          {
+            reloadStats ||
+            <Text 
+              reloadStats = {reloadStats} 
+              setReloadStats = {setReloadStats}
+            />
+
+          }
         </div>
       </div>
     </div>

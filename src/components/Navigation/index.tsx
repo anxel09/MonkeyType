@@ -1,15 +1,34 @@
 import React from "react";
+import { GameStatus } from "../../common/types";
+import { chartReset } from "../../features/ChartSlicer";
+import { textReset } from "../../features/TextSlicer";
+import { useAppDispatch } from "../../hooks/redux";
 import style from "./Navigation.module.scss";
 
-const Navigation = () => {
+interface INavigation{
+  setStatus: (status:GameStatus) =>void,
+  setReloadStats: (val:boolean) => void,
+}
+
+const Navigation: React.FC<INavigation> = ({setStatus,setReloadStats}) => {
+  const dispatch = useAppDispatch()
+  function handleOnClick(){
+    dispatch(chartReset())
+    dispatch(textReset())
+    setStatus(GameStatus.GAME_RUN)
+    setReloadStats(true)
+  }
+
   return (
     <>
-      <div className={style.home}>
+      <div className={style.home} 
+        onClick={handleOnClick}
+      >
         <img width={40} height={24} src="./img/logo.svg" alt="logo" />
         <h1>monkeytype</h1>
       </div>
       <ul className={style.navList}>
-        <li className={style.listItem}>
+        <li  className={style.listItem} >
           <svg
             className={style.keyboard}
             width={27}

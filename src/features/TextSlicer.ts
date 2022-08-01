@@ -29,13 +29,17 @@ export const textSlice = createSlice({
     increaseMistakes(state){
       state.mistakes++;
     },
-    setTime(state,action){
-      state.currentTime = action.payload
+    setTime(state,action:PayloadAction<number>){
+      state.time = action.payload;
+      state.currentTime = action.payload;
+    },
+    setCurrentTime(state,action:PayloadAction<number>){
+      state.currentTime = action.payload;
     },
     setCountOfClicks(state){
       state.countOfClicks+=1
     },
-    setIsStart(state, action){
+    setIsStart(state, action:PayloadAction<boolean>){
       state.isStart = action.payload
     },
     setCountOfCharacter(state,action){
@@ -43,6 +47,14 @@ export const textSlice = createSlice({
     },
     setCountCorrect(state, action){
       state.countCorrectCharacters = action.payload
+    },
+    textReset(state){
+      state.isStart = false;
+      state.countCorrectCharacters = 0;
+      state.countOfCharacter = 0;
+      state.countOfClicks = 0;
+      state.mistakes = 0;
+      state.currentTime = state.time
     }
   }
 })
@@ -62,6 +74,8 @@ export const {
   setIsStart,
   setCountOfCharacter,
   setCountCorrect,
+  setCurrentTime,
+  textReset
 } = textSlice.actions;
 
 export default textSlice.reducer

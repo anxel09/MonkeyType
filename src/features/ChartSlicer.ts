@@ -34,6 +34,10 @@ export const textSlice = createSlice({
     },
     setWordPerMinute(state,action:PayloadAction<number>){
       state.wordsPerMinute.push(action.payload);
+    },
+    chartReset(state){
+      state.errors = [];
+      state.wordsPerMinute = [];
     }
   }
 })
@@ -43,6 +47,7 @@ export const {
   setTimeChart,
   setError,
   setWordPerMinute,
+  chartReset,
 } = textSlice.actions;
 
 export default textSlice.reducer
