@@ -13,7 +13,7 @@ const Mode: React.FC = () => {
   const dispatch = useAppDispatch()
   const [activeGrammar, setActiveGrammar] = useState<string[]>([])
   const [activeMode, setActiveMode] = useState<number>(0)
-  const [activeTime, setActiveTime] = useState<number>(0)
+  const [activeTime, setActiveTime] = useState<number>(3)
 
 
   useEffect(()=>{

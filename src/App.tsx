@@ -21,10 +21,10 @@ function App() {
             reloadStats = {reloadStats} 
             setReloadStats = {setReloadStats}/> :
         <>
-          <Stats />
-        <div style={{width:'500px', height:'500px'}}>
-          <ChartLine />
-        </div>
+            <Stats />
+          <div style={{width:'500px', height:'500px'}}>
+            <ChartLine />
+          </div>
         </>
       }
     </div>

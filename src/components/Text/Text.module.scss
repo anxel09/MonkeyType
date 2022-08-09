@@ -1,20 +1,28 @@
 @import "../../styles/variables";
 
-p{
+div{
   color: $sub-color;
 }
 
 .text{
   font-size: 1.5rem;
+  position: relative;
+  white-space: pre-line;
+  display: flex;
+  flex-wrap: wrap;
 }
 .inputText{
   background-color: inherit;
   border: 0px;
   outline: none;
   caret-color: transparent;
-  // color: transparent;
+  color: transparent;
+  position: relative;
   &:focus{
     outline: none;
+  }
+  &::selection{
+    color: transparent;
   }
 }
 
@@ -24,4 +32,8 @@ p{
 
 .incorrect{
   color: $error-color;
+}
+
+.current{
+  position: relative;
 }

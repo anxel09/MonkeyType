@@ -6,6 +6,7 @@ import { getCurrentTime, getTime, increaseMistakes, setCountCorrect, setCountOfC
 import { useAppSelector } from "../../hooks/redux"
 import { textToLetter } from "../../common/utils/textToLetter"
 import style from "./Text.module.scss"
+import Carret from "../Carret"
 
 
 //Пока на время тут ) 
@@ -86,14 +87,25 @@ const Text: React.FC<IText> = ({reloadStats, setReloadStats}) => {
     }
     return ''
   }, [incorrect,indexText])
+
+
   return (
     <>
       <input onChange={onChangeHandler} value={inputState} ref={inp} className={style.inputText} tabIndex={0} type="text" />
-      <p className={style.text}>
+      <div className={style.text}>
+        <Carret gameStart currentIndex={indexText === -1 ? 0 : indexText+1}/>
         {
-          letters.map((letter,index) => <span key={index+letter} className={setStylesLetters(index)}>{letter}</span> )
+          letters.map((letter,index) => <span
+           key={index+letter}
+           style= { letter === ' ' ? {marginLeft:'14.4px'} : {}}
+          //  className={`${setStylesLetters(index)} ${index === indexText ? `${style.current}` : ''}`}
+           className={`${setStylesLetters(index)}`}
+          >
+            {letter}
+            {/* {(inputState === '' || (letter === ' ' && index === indexText)) ? <Carret gameStart currentIndex = {indexText}/> : index === indexText && <Carret currentIndex={indexText}/>} */}
+          </span> )
         }
-      </p>
+      </div>
     </>
   )
 }
